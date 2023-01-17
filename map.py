@@ -1,12 +1,17 @@
 import csv
+
+
 class DungeonMap:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.grid = [[{
-			"type": "floor",
-			"locked": False,
-			"x": x, "y": y} for x in range(width)] for y in range(height)]
+        self.grid = [
+            [
+                {"type": "floor", "locked": False, "x": x, "y": y}
+                for x in range(width)
+            ]
+            for y in range(height)
+        ]
 
     def set_cell(self, x, y, cell_type, locked=False):
         self.grid[y][x] = {"type": cell_type, "locked": locked, "x": x, "y": y}
@@ -36,9 +41,9 @@ class DungeonMap:
                     section += door
             section += "\n"
         return section
-    
+
     def parse_csv(self, file_path):
-        with open(file_path, 'r') as file:
+        with open(file_path, "r") as file:
             reader = csv.reader(file)
             for y, row in enumerate(reader):
                 for x, cell_type in enumerate(row):
@@ -48,4 +53,3 @@ class DungeonMap:
                         self.set_cell(x, y, "wall")
                     elif cell_type == "door":
                         self.set_cell(x, y, "door", locked=True)
-
